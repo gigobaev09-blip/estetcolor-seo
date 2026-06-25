@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://estetcolor.ru/sitemap.xml
+Sitemap: https://seo.estetcolor.ru/sitemap.xml
