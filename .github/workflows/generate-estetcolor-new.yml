@@ -1,0 +1,345 @@
+name: Generate New EStetColor Pages
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate new category pages
+        run: |
+          python3 << 'PYEOF'
+          import os
+
+          DOMAIN = "seo.estetcolor.ru"
+          PHONE = "+7 (926) 987-82-81"
+          PHONE_CLEAN = "+79269878281"
+          SITE_URL = "https://estetcolor.ru"
+
+          CITIES = [
+              ("himki", "Химки", "в Химки", "в Химках"),
+              ("krasnogorsk", "Красногорск", "в Красногорск", "в Красногорске"),
+              ("odintsovo", "Одинцово", "в Одинцово", "в Одинцово"),
+              ("balashiha", "Балашиха", "в Балашиха", "в Балашихе"),
+              ("mytishchi", "Мытищи", "в Мытищи", "в Мытищах"),
+              ("shchelkovo", "Щёлково", "в Щёлково", "в Щёлково"),
+              ("lyubertsy", "Люберцы", "в Люберцы", "в Люберцах"),
+              ("korolev", "Королёв", "в Королёв", "в Королёве"),
+              ("podolsk", "Подольск", "в Подольск", "в Подольске"),
+              ("elektrostal", "Электросталь", "в Электросталь", "в Электростали"),
+              ("kolomna", "Коломна", "в Коломна", "в Коломне"),
+              ("serpuhov", "Серпухов", "в Серпухов", "в Серпухове"),
+              ("zhukovskiy", "Жуковский", "в Жуковский", "в Жуковском"),
+              ("domodedovo", "Домодедово", "в Домодедово", "в Домодедово"),
+              ("pushkino", "Пушкино", "в Пушкино", "в Пушкино"),
+              ("sergiev-posad", "Сергиев Посад", "в Сергиев Посад", "в Сергиевом Посаде"),
+              ("ramenskoe", "Раменское", "в Раменское", "в Раменском"),
+              ("naro-fominsk", "Наро-Фоминск", "в Наро-Фоминск", "в Наро-Фоминске"),
+              ("istra", "Истра", "в Истра", "в Истре"),
+              ("dmitrov", "Дмитров", "в Дмитров", "в Дмитрове"),
+              ("klin", "Клин", "в Клин", "в Клину"),
+              ("solnechnogorsk", "Солнечногорск", "в Солнечногорск", "в Солнечногорске"),
+              ("zelenograd", "Зеленоград", "в Зеленоград", "в Зеленограде"),
+              ("chekhov", "Чехов", "в Чехов", "в Чехове"),
+              ("stupino", "Ступино", "в Ступино", "в Ступино"),
+              ("vidnoe", "Видное", "в Видное", "в Видном"),
+              ("zvenigorod", "Звенигород", "в Звенигород", "в Звенигороде"),
+              ("dubna", "Дубна", "в Дубна", "в Дубне"),
+              ("lobnya", "Лобня", "в Лобня", "в Лобне"),
+              ("dolgoprudnyy", "Долгопрудный", "в Долгопрудный", "в Долгопрудном"),
+              ("reutov", "Реутов", "в Реутов", "в Реутове"),
+              ("kotelniki", "Котельники", "в Котельники", "в Котельниках"),
+              ("novaya-riga", "Новая Рига", "в Новая Рига", "на Новой Риге"),
+              ("rublyovka", "Рублёвка", "на Рублёвку", "на Рублёвке"),
+              ("kaluzhskoe-shosse", "Калужское шоссе", "на Калужское шоссе", "на Калужском шоссе"),
+              ("kievskoe-shosse", "Киевское шоссе", "на Киевское шоссе", "на Киевском шоссе"),
+              ("minskoe-shosse", "Минское шоссе", "на Минское шоссе", "на Минском шоссе"),
+              ("yaroslavskoe-shosse", "Ярославское шоссе", "на Ярославское шоссе", "на Ярославском шоссе"),
+              ("dmitrovskoe-shosse", "Дмитровское шоссе", "на Дмитровское шоссе", "на Дмитровском шоссе"),
+              ("novorizhskoe-shosse", "Новорижское шоссе", "на Новорижское шоссе", "на Новорижском шоссе"),
+              ("barvikha", "Барвиха", "в Барвиха", "в Барвихе"),
+              ("zhukovka", "Жуковка", "в Жуковка", "в Жуковке"),
+              ("uspenskoe", "Успенское", "в Успенское", "в Успенском"),
+              ("nikolina-gora", "Николина Гора", "в Николина Гора", "на Николиной Горе"),
+              ("krasnaya-pakhra", "Красная Пахра", "в Красная Пахра", "в Красной Пахре"),
+              ("malakhovka", "Малаховка", "в Малаховка", "в Малаховке"),
+              ("tomilino", "Томилино", "в Томилино", "в Томилино"),
+              ("kratovo", "Кратово", "в Кратово", "в Кратово"),
+          ]
+
+          CATEGORIES = [
+              {
+                  "slug": "pokraska-bani",
+                  "name": "покраска бани",
+                  "name_gen": "покраски бани",
+                  "h1": "Покраска бани {v_gorod}",
+                  "title": "Покраска бани {v_gorod} — защита дерева | EstetColor",
+                  "desc": "Покраска бани {v_gorod}. Антисептики, лазури, масла для дерева. Защита от влаги и гниения. Гарантия 3 года. ☎ {phone}",
+                  "intro": "Монолитное покрытие антисептиком под давлением 220 бар. Защита от влаги, гниения и грибка. Брус, бревно, вагонка.",
+                  "what": "баню",
+                  "price1": "от 18 000 ₽",
+                  "price2": "от 35 000 ₽",
+                  "price3": "от 55 000 ₽",
+                  "label1": "Маленькая баня до 20 м²",
+                  "label2": "Баня 20–40 м²",
+                  "label3": "Баня с верандой",
+                  "why": "Баня требует особой защиты — перепады температуры и влажность разрушают дерево. Используем влагостойкие антисептики Tikkurila Vinha и Caparol Capadur, которые проникают в структуру дерева.",
+              },
+              {
+                  "slug": "pokraska-zabora",
+                  "name": "покраска забора",
+                  "name_gen": "покраски забора",
+                  "h1": "Покраска забора {v_gorod}",
+                  "title": "Покраска деревянного забора {v_gorod} | EstetColor",
+                  "desc": "Покраска деревянного забора {v_gorod}. Безвоздушный метод. Защита от УФ и осадков. Гарантия 3 года. ☎ {phone}",
+                  "intro": "Безвоздушное нанесение под давлением 220 бар — краска проникает в каждую щель. Результат держится 5–7 лет без растрескивания.",
+                  "what": "забор",
+                  "price1": "от 12 000 ₽",
+                  "price2": "от 25 000 ₽",
+                  "price3": "от 45 000 ₽",
+                  "label1": "Забор до 20 пог. м",
+                  "label2": "Забор 20–50 пог. м",
+                  "label3": "Забор более 50 пог. м",
+                  "why": "Деревянный забор без защиты сереет и трескается за 1–2 сезона. Безвоздушный метод Wagner Cobra создаёт равномерное покрытие без подтёков. Работаем с красками Tikkurila и Belinka.",
+              },
+              {
+                  "slug": "pokraska-terrasy",
+                  "name": "покраска террасы",
+                  "name_gen": "покраски террасы",
+                  "h1": "Покраска террасы и веранды {v_gorod}",
+                  "title": "Покраска террасы {v_gorod} — защитное покрытие | EstetColor",
+                  "desc": "Покраска деревянной террасы и веранды {v_gorod}. Масла, лазури, антисептики. Стойкость 5 лет. ☎ {phone}",
+                  "intro": "Терраса и веранда — зоны повышенной нагрузки. Безвоздушный метод 220 бар обеспечивает глубокое проникновение состава в дерево.",
+                  "what": "террасу",
+                  "price1": "от 15 000 ₽",
+                  "price2": "от 28 000 ₽",
+                  "price3": "от 50 000 ₽",
+                  "label1": "Терраса до 15 м²",
+                  "label2": "Терраса 15–30 м²",
+                  "label3": "Большая терраса / веранда",
+                  "why": "Терраса подвергается UV-излучению, дождю и механической нагрузке. Используем Tikkurila Valtti Terrace Oil и Caparol Capadur — специальные составы для открытых деревянных поверхностей.",
+              },
+              {
+                  "slug": "pokraska-kryltsa",
+                  "name": "покраска крыльца",
+                  "name_gen": "покраски крыльца",
+                  "h1": "Покраска крыльца {v_gorod}",
+                  "title": "Покраска деревянного крыльца {v_gorod} | EstetColor",
+                  "desc": "Покраска деревянного крыльца {v_gorod}. Нескользящее покрытие, защита от влаги. Гарантия 3 года. ☎ {phone}",
+                  "intro": "Крыльцо — зона максимального износа. Наносим краску под давлением 220 бар с добавлением нескользящего компонента для безопасности.",
+                  "what": "крыльцо",
+                  "price1": "от 8 000 ₽",
+                  "price2": "от 18 000 ₽",
+                  "price3": "от 35 000 ₽",
+                  "label1": "Крыльцо до 5 м²",
+                  "label2": "Крыльцо 5–15 м²",
+                  "label3": "Крыльцо с навесом",
+                  "why": "Деревянное крыльцо без покрытия скользит и гниёт. Применяем составы с нескользящим наполнителем и антисептиком Tikkurila Pinjasol — защита от гниения на 5 лет.",
+              },
+              {
+                  "slug": "pokraska-brusovogo-doma",
+                  "name": "покраска брусового дома",
+                  "name_gen": "покраски брусового дома",
+                  "h1": "Покраска брусового дома {v_gorod}",
+                  "title": "Покраска брусового дома {v_gorod} — безвоздушный метод | EstetColor",
+                  "desc": "Покраска брусового дома {v_gorod}. Tikkurila Valtti, Caparol. Защита торцов, межвенцовых швов. Гарантия 5 лет. ☎ {phone}",
+                  "intro": "Брусовый дом требует особого внимания к торцам и межвенцовым швам. Безвоздушная технология 220 бар обеспечивает 100% заполнение пор.",
+                  "what": "брусовый дом",
+                  "price1": "от 45 000 ₽",
+                  "price2": "от 90 000 ₽",
+                  "price3": "от 160 000 ₽",
+                  "label1": "Дача из бруса до 60 м²",
+                  "label2": "Дом из бруса 60–120 м²",
+                  "label3": "Большой брусовый дом",
+                  "why": "Торцы бруса впитывают влагу в 10 раз быстрее боковых граней. Специально обрабатываем торцы торцевым герметиком и наносим Tikkurila Valtti в 2 слоя — покрытие держится 7+ лет.",
+              },
+          ]
+
+          def make_page(cat, city_slug, city_name, v_city, v_city_loc):
+              h1 = cat["h1"].format(v_gorod=v_city)
+              title = cat["title"].format(v_gorod=v_city)
+              desc = cat["desc"].format(v_gorod=v_city, phone=PHONE)
+              url = f"https://{DOMAIN}/{cat['slug']}/{city_slug}/"
+
+              schema = {
+                  "@context": "https://schema.org",
+                  "@graph": [
+                      {
+                          "@type": "LocalBusiness",
+                          "name": "EstetColor",
+                          "telephone": PHONE_CLEAN,
+                          "url": SITE_URL,
+                          "areaServed": city_name,
+                          "priceRange": cat["price1"],
+                          "description": desc
+                      },
+                      {
+                          "@type": "Service",
+                          "name": cat["name"].capitalize() + " " + v_city_loc,
+                          "provider": {"@type": "LocalBusiness", "name": "EstetColor"},
+                          "areaServed": city_name,
+                          "offers": {
+                              "@type": "Offer",
+                              "price": cat["price1"].replace("от ", "").replace(" ₽", ""),
+                              "priceCurrency": "RUB"
+                          }
+                      },
+                      {
+                          "@type": "FAQPage",
+                          "mainEntity": [
+                              {
+                                  "@type": "Question",
+                                  "name": f"Сколько стоит {cat['name_gen']} {v_city_loc}?",
+                                  "acceptedAnswer": {
+                                      "@type": "Answer",
+                                      "text": f"{cat['label1']} — {cat['price1']}, {cat['label2']} — {cat['price2']}, {cat['label3']} — {cat['price3']}. Точная цена после замера."
+                                  }
+                              },
+                              {
+                                  "@type": "Question",
+                                  "name": f"Как долго длится покрытие?",
+                                  "acceptedAnswer": {
+                                      "@type": "Answer",
+                                      "text": "При соблюдении технологии покрытие держится 5–7 лет. Гарантию подтверждаем договором."
+                                  }
+                              }
+                          ]
+                      }
+                  ]
+              }
+
+              import json
+              schema_str = json.dumps(schema, ensure_ascii=False)
+
+              html = f"""<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{title}</title>
+<meta name="description" content="{desc}">
+<link rel="canonical" href="{url}">
+<script type="application/ld+json">{schema_str}</script>
+<style>
+body{{font-family:Arial,sans-serif;background:#0a0a0a;color:#e8e8e8;margin:0;padding:20px}}
+a{{color:#c8a96e}}h1,h2{{color:#c8a96e}}p{{color:#aaa}}
+.cta{{background:#c8a96e;color:#000;padding:16px 32px;display:inline-block;font-weight:700;border-radius:8px;text-decoration:none;margin:20px 0}}
+.container{{max-width:900px;margin:0 auto}}
+table{{width:100%;border-collapse:collapse;margin:16px 0}}
+td,th{{border:1px solid #333;padding:10px;text-align:left}}
+th{{background:#1a1a1a;color:#c8a96e}}
+.faq{{background:#111;border-left:3px solid #c8a96e;padding:16px;margin:12px 0}}
+</style>
+</head>
+<body>
+<div class="container">
+<p><a href="https://{DOMAIN}/">← EstetColor</a></p>
+<h1>{h1}</h1>
+<p>{cat["intro"]}</p>
+<p>✓ Дилер Tikkurila &amp; Caparol &nbsp; ✓ Свои леса &nbsp; ✓ Выезд {v_city} бесплатно &nbsp; ✓ Работаем 24/7</p>
+<a href="tel:{PHONE_CLEAN}" class="cta">{PHONE} — Позвонить</a>
+
+<h2>Цены на {cat["name"]} {v_city_loc}</h2>
+<table>
+<tr><th>Объект</th><th>Стоимость</th></tr>
+<tr><td>{cat["label1"]}</td><td>{cat["price1"]}</td></tr>
+<tr><td>{cat["label2"]}</td><td>{cat["price2"]}</td></tr>
+<tr><td>{cat["label3"]}</td><td>{cat["price3"]}</td></tr>
+</table>
+<p>Точная стоимость — после бесплатного замера. Выезд {v_city} включён в смету.</p>
+
+<h2>Почему EstetColor?</h2>
+<p>{cat["why"]}</p>
+
+<h2>Часто задаваемые вопросы</h2>
+<div class="faq">
+<p><strong>Сколько стоит {cat["name_gen"]} {v_city_loc}?</strong></p>
+<p>{cat["label1"]} — {cat["price1"]}, {cat["label2"]} — {cat["price2"]}, {cat["label3"]} — {cat["price3"]}. Точная цена после замера.</p>
+</div>
+<div class="faq">
+<p><strong>Как долго длится покрытие?</strong></p>
+<p>При соблюдении технологии покрытие держится 5–7 лет. Гарантию подтверждаем договором.</p>
+</div>
+<div class="faq">
+<p><strong>Вы работаете {v_city_loc}?</strong></p>
+<p>Да, выезжаем {v_city} бесплатно. Звоните: {PHONE}</p>
+</div>
+
+<p><a href="{SITE_URL}">Смотреть портфолио работ →</a></p>
+<a href="tel:{PHONE_CLEAN}" class="cta">{PHONE} — Заказать замер</a>
+</div>
+</body>
+</html>"""
+              return html
+
+          # Generate all pages
+          total = 0
+          for cat in CATEGORIES:
+              for city_slug, city_name, v_city, v_city_loc in CITIES:
+                  path = f"{cat['slug']}/{city_slug}"
+                  os.makedirs(path, exist_ok=True)
+                  html = make_page(cat, city_slug, city_name, v_city, v_city_loc)
+                  with open(f"{path}/index.html", "w", encoding="utf-8") as f:
+                      f.write(html)
+                  total += 1
+
+          print(f"Generated {total} pages")
+
+          # Update sitemap.xml - append new URLs
+          import xml.etree.ElementTree as ET
+          from datetime import date
+
+          today = date.today().strftime("%Y-%m-%d")
+
+          # Read existing sitemap
+          try:
+              tree = ET.parse("sitemap.xml")
+              root = tree.getroot()
+              ns = "http://www.sitemaps.org/schemas/sitemap/0.9"
+          except:
+              root = ET.Element("urlset")
+              root.set("xmlns", "http://www.sitemaps.org/schemas/sitemap/0.9")
+              ns = "http://www.sitemaps.org/schemas/sitemap/0.9"
+
+          # Collect existing URLs
+          existing = set()
+          for url_el in root.findall(f"{{{ns}}}url"):
+              loc = url_el.find(f"{{{ns}}}loc")
+              if loc is not None:
+                  existing.add(loc.text)
+
+          # Add new URLs
+          new_count = 0
+          for cat in CATEGORIES:
+              for city_slug, city_name, v_city, v_city_loc in CITIES:
+                  url = f"https://{DOMAIN}/{cat['slug']}/{city_slug}/"
+                  if url not in existing:
+                      url_el = ET.SubElement(root, f"{{{ns}}}url")
+                      ET.SubElement(url_el, f"{{{ns}}}loc").text = url
+                      ET.SubElement(url_el, f"{{{ns}}}lastmod").text = today
+                      ET.SubElement(url_el, f"{{{ns}}}changefreq").text = "monthly"
+                      ET.SubElement(url_el, f"{{{ns}}}priority").text = "0.8"
+                      new_count += 1
+
+          ET.indent(root, space="  ")
+          tree_out = ET.ElementTree(root)
+          with open("sitemap.xml", "wb") as f:
+              f.write(b'<?xml version="1.0" encoding="UTF-8"?>\n')
+              tree_out.write(f, encoding="utf-8", xml_declaration=False)
+
+          print(f"Added {new_count} URLs to sitemap.xml")
+          PYEOF
+
+      - name: Commit and push
+        run: |
+          git config user.email "github-actions@github.com"
+          git config user.name "GitHub Actions"
+          git add .
+          git commit -m "Add 240 new SEO pages: banya, zabor, terrasa, kryltso, brusovoy-dom" || echo "Nothing to commit"
+          git push
