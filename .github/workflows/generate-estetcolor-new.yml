@@ -218,64 +218,32 @@ jobs:
               schema_str = json.dumps(schema, ensure_ascii=False)
 
               html = f"""<!DOCTYPE html>
-<html lang="ru">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>{title}</title>
-<meta name="description" content="{desc}">
-<link rel="canonical" href="{url}">
-<script type="application/ld+json">{schema_str}</script>
-<style>
-body{{font-family:Arial,sans-serif;background:#0a0a0a;color:#e8e8e8;margin:0;padding:20px}}
-a{{color:#c8a96e}}h1,h2{{color:#c8a96e}}p{{color:#aaa}}
-.cta{{background:#c8a96e;color:#000;padding:16px 32px;display:inline-block;font-weight:700;border-radius:8px;text-decoration:none;margin:20px 0}}
-.container{{max-width:900px;margin:0 auto}}
-table{{width:100%;border-collapse:collapse;margin:16px 0}}
-td,th{{border:1px solid #333;padding:10px;text-align:left}}
-th{{background:#1a1a1a;color:#c8a96e}}
-.faq{{background:#111;border-left:3px solid #c8a96e;padding:16px;margin:12px 0}}
-</style>
-</head>
-<body>
-<div class="container">
-<p><a href="https://{DOMAIN}/">← EstetColor</a></p>
-<h1>{h1}</h1>
-<p>{cat["intro"]}</p>
-<p>✓ Дилер Tikkurila &amp; Caparol &nbsp; ✓ Свои леса &nbsp; ✓ Выезд {v_city} бесплатно &nbsp; ✓ Работаем 24/7</p>
-<a href="tel:{PHONE_CLEAN}" class="cta">{PHONE} — Позвонить</a>
-
-<h2>Цены на {cat["name"]} {v_city_loc}</h2>
-<table>
-<tr><th>Объект</th><th>Стоимость</th></tr>
-<tr><td>{cat["label1"]}</td><td>{cat["price1"]}</td></tr>
-<tr><td>{cat["label2"]}</td><td>{cat["price2"]}</td></tr>
-<tr><td>{cat["label3"]}</td><td>{cat["price3"]}</td></tr>
-</table>
-<p>Точная стоимость — после бесплатного замера. Выезд {v_city} включён в смету.</p>
-
-<h2>Почему EstetColor?</h2>
-<p>{cat["why"]}</p>
-
-<h2>Часто задаваемые вопросы</h2>
-<div class="faq">
-<p><strong>Сколько стоит {cat["name_gen"]} {v_city_loc}?</strong></p>
-<p>{cat["label1"]} — {cat["price1"]}, {cat["label2"]} — {cat["price2"]}, {cat["label3"]} — {cat["price3"]}. Точная цена после замера.</p>
-</div>
-<div class="faq">
-<p><strong>Как долго длится покрытие?</strong></p>
-<p>При соблюдении технологии покрытие держится 5–7 лет. Гарантию подтверждаем договором.</p>
-</div>
-<div class="faq">
-<p><strong>Вы работаете {v_city_loc}?</strong></p>
-<p>Да, выезжаем {v_city} бесплатно. Звоните: {PHONE}</p>
-</div>
-
-<p><a href="{SITE_URL}">Смотреть портфолио работ →</a></p>
-<a href="tel:{PHONE_CLEAN}" class="cta">{PHONE} — Заказать замер</a>
-</div>
-</body>
-</html>"""
+              <html lang="ru"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+              <title>{title}</title><meta name="description" content="{desc}">
+              <link rel="canonical" href="{url}"><script type="application/ld+json">{schema_str}</script>
+              <style>body{{font-family:Arial,sans-serif;background:#0a0a0a;color:#e8e8e8;margin:0;padding:20px}}a{{color:#c8a96e}}h1,h2{{color:#c8a96e}}p{{color:#aaa}}.cta{{background:#c8a96e;color:#000;padding:16px 32px;display:inline-block;font-weight:700;border-radius:8px;text-decoration:none;margin:20px 0}}.container{{max-width:900px;margin:0 auto}}table{{width:100%;border-collapse:collapse;margin:16px 0}}td,th{{border:1px solid #333;padding:10px;text-align:left}}th{{background:#1a1a1a;color:#c8a96e}}.faq{{background:#111;border-left:3px solid #c8a96e;padding:16px;margin:12px 0}}</style>
+              </head><body><div class="container">
+              <p><a href="https://{DOMAIN}/">← EstetColor</a></p>
+              <h1>{h1}</h1><p>{cat["intro"]}</p>
+              <p>✓ Дилер Tikkurila &amp; Caparol &nbsp;✓ Свои леса &nbsp;✓ Выезд {v_city} бесплатно &nbsp;✓ Работаем 24/7</p>
+              <a href="tel:{PHONE_CLEAN}" class="cta">{PHONE} — Позвонить</a>
+              <h2>Цены на {cat["name"]} {v_city_loc}</h2>
+              <table><tr><th>Объект</th><th>Стоимость</th></tr>
+              <tr><td>{cat["label1"]}</td><td>{cat["price1"]}</td></tr>
+              <tr><td>{cat["label2"]}</td><td>{cat["price2"]}</td></tr>
+              <tr><td>{cat["label3"]}</td><td>{cat["price3"]}</td></tr></table>
+              <p>Точная стоимость — после бесплатного замера. Выезд {v_city} включён в смету.</p>
+              <h2>Почему EstetColor?</h2><p>{cat["why"]}</p>
+              <h2>Часто задаваемые вопросы</h2>
+              <div class="faq"><p><strong>Сколько стоит {cat["name_gen"]} {v_city_loc}?</strong></p>
+              <p>{cat["label1"]} — {cat["price1"]}, {cat["label2"]} — {cat["price2"]}, {cat["label3"]} — {cat["price3"]}. Точная цена после замера.</p></div>
+              <div class="faq"><p><strong>Как долго длится покрытие?</strong></p>
+              <p>При соблюдении технологии покрытие держится 5–7 лет. Гарантию подтверждаем договором.</p></div>
+              <div class="faq"><p><strong>Вы работаете {v_city_loc}?</strong></p>
+              <p>Да, выезжаем {v_city} бесплатно. Звоните: {PHONE}</p></div>
+              <p><a href="{SITE_URL}">Смотреть портфолио работ →</a></p>
+              <a href="tel:{PHONE_CLEAN}" class="cta">{PHONE} — Заказать замер</a>
+              </div></body></html>"""
               return html
 
           # Generate all pages
